@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+
+      document.addEventListener('DOMContentLoaded', () => {
     const cardNumberInput = document.getElementById('card-number');
     const cardHolderInput = document.getElementById('cardholder-name');
     const expMonthInput = document.getElementById('exp-month');
@@ -12,51 +13,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMessages = document.querySelectorAll('.error-message');
 
     cardNumberInput.addEventListener('input', () => {
-        cardNumberDisplay.textContent = formatCardNumber(cardNumberInput.value) || '0000 0000 0000 0000';
+        cardNumberDisplay.textContent = formatCardNumber(cardNumberInput.value);
     });
 
     cardHolderInput.addEventListener('input', () => {
-        cardHolderDisplay.textContent = cardHolderInput.value || 'Jane Appleseed';
+        cardHolderDisplay.textContent = cardHolderInput.value;
     });
 
-    expMonthInput.addEventListener('input', () => {
-        updateExpiry();
-    });
-
-    expYearInput.addEventListener('input', () => {
-        updateExpiry();
-    });
+    expMonthInput.addEventListener('input', updateExpiryDate);
+    expYearInput.addEventListener('input', updateExpiryDate);
 
     cvcInput.addEventListener('input', () => {
-        cardCvcDisplay.textContent = cvcInput.value || '000';
+        cardCvcDisplay.textContent = cvcInput.value;
     });
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        let isValid = true;
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
         clearErrorMessages();
+        let valid = true;
 
-        if (cardHolderInput.value.trim() === '') {
+        if (!cardHolderInput.value) {
+            valid = false;
             showError(cardHolderInput, 'Cardholder name is required');
-            isValid = false;
         }
 
-        if (!/^\d{4} \d{4} \d{4} \d{4}$/.test(cardNumberInput.value)) {
-            showError(cardNumberInput, 'Invalid card number');
-            isValid = false;
+        if (!cardNumberInput.value || !/^\d{4} \d{4} \d{4} \d{4}$/.test(cardNumberInput.value)) {
+            valid = false;
+            showError(cardNumberInput, 'Card number is required and must be in the format 1234 5678 9123 0000');
         }
 
-        if (!/^\d{2}$/.test(expMonthInput.value) || !/^\d{2}$/.test(expYearInput.value)) {
-            showError(expMonthInput.parentElement, 'Invalid expiry date');
-            isValid = false;
+        if (!expMonthInput.value || !/^\d{2}$/.test(expMonthInput.value) || !expYearInput.value || !/^\d{2}$/.test(expYearInput.value)) {
+            valid = false;
+            showError(expMonthInput, 'Expiry date is required and must be in the format MM/YY');
         }
 
-        if (!/^\d{3}$/.test(cvcInput.value)) {
-            showError(cvcInput, 'Invalid CVC');
-            isValid = false;
+        if (!cvcInput.value || !/^\d{3}$/.test(cvcInput.value)) {
+            valid = false;
+            showError(cvcInput, 'CVC is required and must be a 3-digit number');
         }
 
-        if (isValid) {
+        if (valid) {
             alert('Card details submitted successfully!');
         }
     });
@@ -65,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return number.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim();
     }
 
-    function updateExpiry() {
+    function updateExpiryDate() {
         cardExpiryDisplay.textContent = `${expMonthInput.value || '00'}/${expYearInput.value || '00'}`;
     }
 
