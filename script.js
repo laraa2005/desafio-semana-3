@@ -1,25 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const cardNumberDisplay = document.getElementById('card-number');
-    const cardNameDisplay = document.getElementById('card-name');
-    const cardExpiryDisplay = document.getElementById('card-expiry');
-    const cardCvcDisplay = document.getElementById('card-cvc');
-    
-    const form = document.getElementById('card-form');
-    const nameInput = document.getElementById('cardholder-name');
-    const numberInput = document.getElementById('card-number-input');
-    const expiryInput = document.getElementById('expiry-date');
+    const cardNumberInput = document.getElementById('card-number');
+    const cardHolderInput = document.getElementById('cardholder-name');
+    const expMonthInput = document.getElementById('exp-month');
+    const expYearInput = document.getElementById('exp-year');
     const cvcInput = document.getElementById('cvc');
+    const cardNumberDisplay = document.querySelector('.card-number');
+    const cardHolderDisplay = document.querySelector('.card-holder');
+    const cardExpiryDisplay = document.querySelector('.card-expiry');
+    const cardCvcDisplay = document.querySelector('.card-cvc');
+    const form = document.getElementById('card-form');
+    const errorMessages = document.querySelectorAll('.error-message');
 
-    nameInput.addEventListener('input', () => {
-        cardNameDisplay.textContent = nameInput.value || 'JANE APPLESEED';
+    cardNumberInput.addEventListener('input', () => {
+        cardNumberDisplay.textContent = cardNumberInput.value || '0000 0000 0000 0000';
     });
 
-    numberInput.addEventListener('input', () => {
-        cardNumberDisplay.textContent = numberInput.value || '0000 0000 0000 0000';
+    cardHolderInput.addEventListener('input', () => {
+        cardHolderDisplay.textContent = cardHolderInput.value || 'Jane Appleseed';
     });
 
-    expiryInput.addEventListener('input', () => {
-        cardExpiryDisplay.textContent = expiryInput.value || '00/00';
+    expMonthInput.addEventListener('input', () => {
+        updateExpiry();
+    });
+
+    expYearInput.addEventListener('input', () => {
+        updateExpiry();
     });
 
     cvcInput.addEventListener('input', () => {
@@ -29,48 +34,43 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         let isValid = true;
+        clearErrorMessages();
 
-        // Reset error messages
-        document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
-
-        // Validate name
-        if (nameInput.value.trim() === '') {
+        if (cardHolderInput.value.trim() === '') {
+            showError(cardHolderInput, 'Cardholder name is required');
             isValid = false;
-            document.getElementById('name-error').textContent = 'Name cannot be blank';
-            document.getElementById('name-error').style.display = 'block';
         }
 
-        // Validate card number
-        const cardNumberPattern = /^\d{4} \d{4} \d{4} \d{4}$/;
-        if (!cardNumberPattern.test(numberInput.value)) {
+        if (!/^\d{4} \d{4} \d{4} \d{4}$/.test(cardNumberInput.value)) {
+            showError(cardNumberInput, 'Invalid card number');
             isValid = false;
-            document.getElementById('number-error').textContent = 'Invalid card number';
-            document.getElementById('number-error').style.display = 'block';
         }
 
-        // Validate expiry date
-        const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
-        if (!expiryPattern.test(expiryInput.value)) {
+        if (!/^\d{2}$/.test(expMonthInput.value) || !/^\d{2}$/.test(expYearInput.value)) {
+            showError(expMonthInput.parentElement, 'Invalid expiry date');
             isValid = false;
-            document.getElementById('expiry-error').textContent = 'Invalid expiry date';
-            document.getElementById('expiry-error').style.display = 'block';
         }
 
-        // Validate CVC
-        const cvcPattern = /^\d{3}$/;
-        if (!cvcPattern.test(cvcInput.value)) {
+        if (!/^\d{3}$/.test(cvcInput.value)) {
+            showError(cvcInput, 'Invalid CVC');
             isValid = false;
-            document.getElementById('cvc-error').textContent = 'Invalid CVC';
-            document.getElementById('cvc-error').style.display = 'block';
         }
 
         if (isValid) {
-            alert('Form submitted successfully!');
-            form.reset();
-            cardNumberDisplay.textContent = '0000 0000 0000 0000';
-            cardNameDisplay.textContent = 'JANE APPLESEED';
-            cardExpiryDisplay.textContent = '00/00';
-            cardCvcDisplay.textContent = '000';
+            alert('Card details submitted successfully!');
         }
     });
-});
+
+    function updateExpiry() {
+        cardExpiryDisplay.textContent = `${expMonthInput.value || '00'}/${expYearInput.value || '00'}`;
+    }
+
+    function clearErrorMessages() {
+        errorMessages.forEach(error => error.textContent = '');
+    }
+
+    function showError(input, message) {
+        const error = input.nextElementSibling;
+        if (error && error.classList.contains('error-message')) {
+            error.textContent = message;
+        }
