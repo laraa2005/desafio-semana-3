@@ -1,114 +1,147 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
 body {
-    background: linear-gradient(135deg, hsl(249, 99%, 64%), hsl(278, 94%, 30%));
-    font-family: 'Space Grotesk', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+    background-color: #2c2c54;
+    color: #fff;
 }
 
 .container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
     display: flex;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 400px;
 }
 
 .card-preview {
-    position: relative;
-    width: 300px;
-    height: 180px;
-    margin-right: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 300px;
+    height: 180px;
     border-radius: 10px;
-    backface-visibility: hidden;
-}
-
-.card-front {
-    background: linear-gradient(135deg, hsl(249, 99%, 64%), hsl(278, 94%, 30%));
-    color: white;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.card-back {
-    background: hsl(278, 68%, 11%);
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: rotateY(180deg);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-bottom: 10px;
 }
 
 .card-logo {
-    width: 60px;
+    width: 40px;
     height: 40px;
-    background: url('card-logo.png') no-repeat center/contain;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }
 
 .card-number {
-    font-size: 1.5em;
+    font-size: 1.2em;
+    margin-top: 40px;
     letter-spacing: 2px;
 }
 
-.card-name, .card-expiry, .card-cvc {
-    font-size: 1em;
+.card-holder, .card-expiry {
+    font-size: 0.9em;
+    margin-top: 20px;
+}
+
+.card-holder {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.card-expiry {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.card-back {
+    background-color: #333;
+}
+
+.card-cvc {
+    position: absolute;
+    right: 20px;
+    top: 80px;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    color: #333;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+    width: 100%;
 }
 
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
 }
 
 input {
     width: 100%;
     padding: 10px;
-    margin-top: 5px;
-    border: 1px solid hsl(270, 3%, 87%);
     border-radius: 5px;
+    border: 1px solid #ccc;
     font-size: 1em;
 }
 
 input:focus {
-    border-color: hsl(249, 99%, 64%);
     outline: none;
+    border-color: #667eea;
 }
 
 button {
+    width: 100%;
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background: hsl(278, 68%, 11%);
-    color: white;
-    font-size: 1em;
+    background-color: #667eea;
+    color: #fff;
+    font-size: 1.2em;
     cursor: pointer;
 }
 
 button:hover {
-    background: hsl(278, 94%, 30%);
+    background-color: #5a67d8;
 }
 
-.error {
-    color: hsl(0, 100%, 66%);
+.error-message {
+    color: red;
     font-size: 0.8em;
-    display: none;
+    position: absolute;
+    bottom: -18px;
 }
 
-.expiry-cvc {
+.exp-date-group {
     display: flex;
     gap: 10px;
+}
+
+.exp-date-group input {
+    width: calc(50% - 5px);
 }
