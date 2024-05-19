@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMessages = document.querySelectorAll('.error-message');
 
     cardNumberInput.addEventListener('input', () => {
-        cardNumberDisplay.textContent = cardNumberInput.value || '0000 0000 0000 0000';
+        cardNumberDisplay.textContent = formatCardNumber(cardNumberInput.value) || '0000 0000 0000 0000';
     });
 
     cardHolderInput.addEventListener('input', () => {
@@ -61,6 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    function formatCardNumber(number) {
+        return number.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim();
+    }
+
     function updateExpiry() {
         cardExpiryDisplay.textContent = `${expMonthInput.value || '00'}/${expYearInput.value || '00'}`;
     }
@@ -74,3 +78,5 @@ document.addEventListener('DOMContentLoaded', () => {
         if (error && error.classList.contains('error-message')) {
             error.textContent = message;
         }
+    }
+});
