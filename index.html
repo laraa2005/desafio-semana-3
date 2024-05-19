@@ -31,17 +31,18 @@
                 <input type="text" id="card-number" placeholder="e.g. 1234 5678 9123 0000">
                 <span class="error-message"></span>
             </div>
-            <div class="input-group">
-                <label for="exp-month">Exp. Date (MM/YY)</label>
-                <div class="exp-date-group">
-                    <input type="text" id="exp-month" placeholder="MM">
-                    <input type="text" id="exp-year" placeholder="YY">
+            <div class="input-group exp-cvc-group">
+                <div class="exp-group">
+                    <label for="exp-month">Exp. Date (MM/YY)</label>
+                    <div class="exp-date-group">
+                        <input type="text" id="exp-month" placeholder="MM">
+                        <input type="text" id="exp-year" placeholder="YY">
+                    </div>
                 </div>
-                <span class="error-message"></span>
-            </div>
-            <div class="input-group">
-                <label for="cvc">CVC</label>
-                <input type="text" id="cvc" placeholder="e.g. 123">
+                <div class="cvc-group">
+                    <label for="cvc">CVC</label>
+                    <input type="text" id="cvc" placeholder="e.g. 123">
+                </div>
                 <span class="error-message"></span>
             </div>
             <button type="submit">Confirm</button>
